@@ -1,13 +1,13 @@
+from typing import List
+
 class Solution:
-    def twoSum(self, nums: list[int], target: int) -> list[int]:
+    def twoSum(self, nums: List[int], target: int) -> List[int]:
+        seen = {}  # number -> index
         
-        hashmap = {}
-        
-        for i, num in enumerate(nums):
+        for i in range(len(nums)):
+            needed = target - nums[i]
             
-            complement = target - num
+            if needed in seen:
+                return [seen[needed], i]
             
-            if complement in hashmap:
-                return [hashmap[complement], i]
-            
-            hashmap[num] = i
+            seen[nums[i]] = i
