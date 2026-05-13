@@ -1,5 +1,6 @@
 class Solution:
     def minMoves(self, nums: List[int], limit: int) -> int:
+
         n = len(nums)
 
         # Difference array
@@ -7,6 +8,7 @@ class Solution:
 
         # Process each pair
         for i in range(n // 2):
+
             a = nums[i]
             b = nums[n - 1 - i]
 
@@ -14,29 +16,25 @@ class Solution:
             high = max(a, b) + limit
             pair_sum = a + b
 
-            # Assume 2 moves for all sums
+            # Initially assume every sum needs 2 moves
             diff[2] += 2
             diff[2 * limit + 1] -= 2
 
-            # Improve to 1 move for range [low, high]
+            # Sums achievable in 1 move
             diff[low] -= 1
             diff[high + 1] += 1
 
-            # Improve to 0 moves for exact sum
+            # Exact current sum needs 0 moves
             diff[pair_sum] -= 1
             diff[pair_sum + 1] += 1
 
-        # Find minimum moves using prefix sum
+        # Prefix sum to compute moves for each target sum
         ans = float('inf')
         current = 0
 
-        for s in range(2, 2 * limit + 1):
-            current += diff[s]
+        for target_sum in range(2, 2 * limit + 1):
+            current += diff[target_sum]
             ans = min(ans, current)
 
         return ans
-        
-
-                    
-
         
