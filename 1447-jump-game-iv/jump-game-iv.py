@@ -1,54 +1,46 @@
 class Solution:
     def minJumps(self, arr: List[int]) -> int:
 
-        from collections import defaultdict, deque
+        from collections import defaultdict
+        import heapq
 
         n = len(arr)
 
-        if n == 1:
-            return 0
-
+        # value -> indices
         mp = defaultdict(list)
 
         for i, val in enumerate(arr):
             mp[val].append(i)
 
-        q = deque([0])
-
         visited = [False] * n
-        visited[0] = True
 
-        steps = 0
+        pq = [(0, 0)]   # (steps, index)
 
-        while q:
+        while pq:
 
-            size = len(q)
+            steps, node = heapq.heappop(pq)
 
-            for _ in range(size):
+            if node == n - 1:
+                return steps
 
-                node = q.popleft()
+            if visited[node]:
+                continue
 
-                if node == n - 1:
-                    return steps
+            visited[node] = True
 
-                neighbors = []
+           
+            if node + 1 < n and not visited[node + 1]:
+                heapq.heappush(pq, (steps + 1, node + 1))
 
-                # same value
-                neighbors += mp[arr[node]]
+            
+            if node - 1 >= 0 and not visited[node - 1]:
+                heapq.heappush(pq, (steps + 1, node - 1))
 
-                # adjacent
-                if node + 1 < n:
-                    neighbors.append(node + 1)
+            
+            for nei in mp[arr[node]]:
+                if not visited[nei]:
+                    heapq.heappush(pq, (steps + 1, nei))
 
-                if node - 1 >= 0:
-                    neighbors.append(node - 1)
-
-                for nei in neighbors:
-                    if not visited[nei]:
-                        visited[nei] = True
-                        q.append(nei)
-
-                mp[arr[node]].clear()
-
-            steps += 1
+           
+            mp[arr[node]].clear()
         
