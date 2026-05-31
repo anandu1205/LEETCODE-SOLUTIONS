@@ -5,7 +5,6 @@ class Solution:
         for asteroid in asteroids:
             if asteroid > mass:
                 return False
-
             mass += asteroid
 
         return True
