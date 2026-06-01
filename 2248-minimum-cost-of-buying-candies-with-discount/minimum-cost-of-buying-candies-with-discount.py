@@ -9,3 +9,4 @@ class Solution:
                 total += cost[i]
 
         return total
+        
