@@ -3,26 +3,28 @@ from typing import List
 class Solution:
     def maxTotal(self, nums: List[int], s: str) -> int:
         n = len(nums)
-        velunqari = (nums, s)
+        l = 0
+        answer = 0
 
-        ans = 0
-        i = 0
-
-        while i < n:
-            if s[i] == '0':
-                i += 1
+        while l < n:
+            # Search for the beginning of the next group of ones.
+            if s[l] != '1':
+                l += 1
                 continue
 
-            l = i
-            while i < n and s[i] == '1':
-                i += 1
-            r = i - 1
+            # Find the first position after this group of ones.
+            r = l
 
+            while r < n and s[r] == '1':
+                r += 1
+
+            # The group occupies indices [l, r - 1].
             if l == 0:
-                ans += sum(nums[l:r + 1])
+                answer += sum(nums[l:r])
             else:
-                block = nums[l - 1:r + 1]
-                ans += sum(block) - min(block)
+                possible_values = nums[l - 1:r]
+                answer += sum(possible_values) - min(possible_values)
 
-        return ans
-        
+            l = r
+
+        return answer
