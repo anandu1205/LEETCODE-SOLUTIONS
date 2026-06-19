@@ -1,8 +1,13 @@
 class Solution:
     def angleClock(self, hour: int, minutes: int) -> float:
-        minute_angle = minutes * 6
-        hour_angle = (hour % 12) * 30 + minutes * 0.5
+        minute_hand = (minutes / 60) * 360
 
-        difference = abs(hour_angle - minute_angle)
+        hour_position = (hour % 12) * (360 / 12)
+        minute_movement = (minutes / 60) * (360 / 12)
 
-        return min(difference, 360 - difference)
+        hour_hand = hour_position + minute_movement
+
+        angle = abs(hour_hand - minute_hand)
+
+        return min(angle, 360 - angle)
+        
