@@ -1,28 +1,24 @@
-from typing import List
+from math import ceil
 
 class Solution:
-    def minEnergy(
-        self,
-        n: int,
-        brightness: int,
-        intervals: List[List[int]]
-    ) -> int:
+    def minEnergy(self, n: int, brightness: int, intervals: list[list[int]]) -> int:
         intervals.sort()
 
-        total_time = 0
-        current_start, current_end = intervals[0]
+        merged = [intervals[0]]
 
-        for start, end in intervals[1:]:
-            # The intervals overlap or contain consecutive integer times.
-            if start <= current_end + 1:
-                current_end = max(current_end, end)
+        for i in range(1, len(intervals)):
+            start, end = intervals[i]
+
+            if start <= merged[-1][1]:
+                merged[-1][1] = max(merged[-1][1], end)
             else:
-                total_time += current_end - current_start + 1
-                current_start, current_end = start, end
+                merged.append([start, end])
 
-        # Include the final merged interval.
-        total_time += current_end - current_start + 1
+        length = 0
 
-        bulbs_needed = (brightness + 2) // 3
+        for start, end in merged:
+            length += end - start + 1
 
-        return total_time * bulbs_needed
+        answer = length * ceil(brightness / 3)
+
+        return answer
