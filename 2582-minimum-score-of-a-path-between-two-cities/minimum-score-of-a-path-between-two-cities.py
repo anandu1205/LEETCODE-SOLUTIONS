@@ -1,3 +1,5 @@
+from collections import deque
+
 class Solution:
     def minScore(self, n: int, roads: List[List[int]]) -> int:
         graph = [[] for _ in range(n + 1)]
@@ -7,11 +9,11 @@ class Solution:
             graph[b].append((a, dist))
 
         visited = set()
-        stack = [1]
+        queue = deque([1])
         ans = float("inf")
 
-        while stack:
-            city = stack.pop()
+        while queue:
+            city = queue.popleft()
 
             if city in visited:
                 continue
@@ -22,6 +24,7 @@ class Solution:
                 ans = min(ans, dist)
 
                 if nei not in visited:
-                    stack.append(nei)
+                    queue.append(nei)
 
         return ans
+        
