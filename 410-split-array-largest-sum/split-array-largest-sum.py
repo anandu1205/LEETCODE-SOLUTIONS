@@ -1,16 +1,32 @@
 class Solution:
     def splitArray(self, nums: List[int], k: int) -> int:
+
         n = len(nums)
-        dp = [float("inf")] * (n + 1)
-        dp[n] = 0
 
-        for m in range(1, k + 1):
-            nextDp = [float("inf")] * (n + 1)
-            for i in range(n - 1, -1, -1):
-                curSum = 0
-                for j in range(i, n - m + 1):
-                    curSum += nums[j]
-                    nextDp[i] = min(nextDp[i], max(curSum, dp[j + 1]))
-            dp = nextDp
+        def canSplit(largest):
+            currSum = 0
+            subarray = 1
 
-        return dp[0]
+            for i in range(n):
+                if currSum + nums[i] > largest:
+                    currSum = nums[i]
+                    subarray += 1
+                else:
+                    currSum += nums[i]
+
+            return subarray <= k
+
+        l = max(nums)
+        r = sum(nums)
+        res = r
+
+        while l <= r:
+            mid = (l + r) // 2
+
+            if canSplit(mid):
+                res = mid
+                r = mid - 1
+            else:
+                l = mid + 1
+
+        return res
