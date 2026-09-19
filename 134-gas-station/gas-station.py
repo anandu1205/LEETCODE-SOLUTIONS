@@ -1,20 +1,13 @@
-from typing import List
-
 class Solution:
     def canCompleteCircuit(self, gas: List[int], cost: List[int]) -> int:
-        # If total gas is less than total cost, impossible
-        if sum(gas) < sum(cost):
+        if sum(gas)<sum(cost):
             return -1
-
-        start = 0
-        tank = 0
-
+        total=0 
+        res=0
         for i in range(len(gas)):
-            tank += gas[i] - cost[i]
-
-            # Current start can't work
-            if tank < 0:
-                start = i + 1
-                tank = 0
-
-        return start
+            total+=gas[i]-cost[i]
+            if total<0:
+                total=0
+                res=i+1
+        return res
+        
