@@ -2,7 +2,8 @@ class Solution:
     def maximalSquare(self, matrix: list[list[str]]) -> int:
         rows, cols = len(matrix), len(matrix[0])
         dp = [[0] * cols for _ in range(rows)]
-        max_side = 0
+
+        maxside = 0
 
         for r in range(rows - 1, -1, -1):
             for c in range(cols - 1, -1, -1):
@@ -16,8 +17,6 @@ class Solution:
                             dp[r + 1][c + 1]
                         )
 
-                    max_side = max(max_side, dp[r][c])
+                    maxside = max(maxside, dp[r][c])
 
-        return max_side * max_side
-
-        
+        return maxside * maxside
